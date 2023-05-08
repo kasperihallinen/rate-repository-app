@@ -12,9 +12,8 @@ const styles = StyleSheet.create({
   language: {
     color: theme.colors.textTertiary,
     backgroundColor: theme.colors.primary,
-    padding: 2,
-    paddingLeft: 5,
-    paddingRight: 5,
+    paddingVertical: 2,
+    paddingHorizontal: 5,
     borderRadius: theme.borderRadius.primary,
   },
   colorTextSecondary: {

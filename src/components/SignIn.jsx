@@ -4,14 +4,17 @@ import Text from './Text';
 import FormikTextInput from './FormikTextInput';
 import { Pressable, StyleSheet, View } from 'react-native';
 import theme from '../theme';
+import useSignIn from '../hooks/useSignIn';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.background3,
-    paddingLeft: theme.paddings.primary,
-    paddingRight: theme.paddings.primary,
-    paddingBottom: theme.paddings.primary,
+    padding: theme.paddings.primary,
     justifyContent: 'space-evenly',
+  },
+  fieldContainer: {
+    marginBottom: theme.paddings.primary * 1.5,
   },
   button: {
     justifyContent: 'center',
@@ -19,7 +22,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
     borderRadius: theme.borderRadius.primary,
     height: theme.formFieldHeight.primary,
-    marginTop: theme.paddings.primary,
   },
 });
 
@@ -34,8 +36,18 @@ const initialValues = {
 };
 
 const SignIn = () => {
-  const onSubmit = (values) => {
-    console.log(values);
+  const navigate = useNavigate();
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      await signIn({ username, password });
+      navigate('/');
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <Formik
@@ -44,12 +56,17 @@ const SignIn = () => {
       validationSchema={validationSchema}>
       {({ handleSubmit }) => (
         <View style={styles.container}>
-          <FormikTextInput name='username' placeholder='Username' />
-          <FormikTextInput
-            name='password'
-            placeholder='Password'
-            secureTextEntry={true}
-          />
+          <View style={styles.fieldContainer}>
+            <FormikTextInput name='username' placeholder='Username' />
+          </View>
+          <View style={styles.fieldContainer}>
+            <FormikTextInput
+              name='password'
+              placeholder='Password'
+              secureTextEntry={true}
+            />
+          </View>
+
           <Pressable onPress={handleSubmit} style={styles.button}>
             <Text color='textTertiary' fontSize='subheading'>
               Sign in

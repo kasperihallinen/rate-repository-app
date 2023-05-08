@@ -4,14 +4,17 @@ import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
-    marginRight: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
   },
 });
 
-const AppBarTab = ({ tabName, linkTo }) => {
+const AppBarTab = ({ tabName, linkTo, onPress }) => {
   return (
-    <Link style={styles.container} to={linkTo}>
-      <Text color={'textTertiary'}>{tabName}</Text>
+    <Link style={styles.container} onPress={onPress} to={linkTo}>
+      <Text color={'textTertiary'} fontWeight='bold'>
+        {tabName}
+      </Text>
     </Link>
   );
 };

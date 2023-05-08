@@ -41,7 +41,16 @@ const formatNumber = (num) => {
     return num;
   }
   const formattedNum = Math.round(num / 100) / 10;
-  return formattedNum + 'k';
+  return `${formattedNum}k`;
+};
+
+const CountItem = ({ label, count }) => {
+  return (
+    <View style={styles.bottomColumnFlexContainer}>
+      <Text fontWeight='bold'>{formatNumber(count)}</Text>
+      <Text color='textSecondary'>{label}</Text>
+    </View>
+  );
 };
 
 const RepositoryItem = ({ item }) => {
@@ -62,22 +71,10 @@ const RepositoryItem = ({ item }) => {
         </View>
       </View>
       <View style={styles.bottomRowFlexContainer}>
-        <View style={styles.bottomColumnFlexContainer}>
-          <Text fontWeight='bold'>{formatNumber(item.stargazersCount)}</Text>
-          <Text color='textSecondary'>Stars</Text>
-        </View>
-        <View style={styles.bottomColumnFlexContainer}>
-          <Text fontWeight='bold'>{formatNumber(item.forksCount)}</Text>
-          <Text color='textSecondary'>Forks</Text>
-        </View>
-        <View style={styles.bottomColumnFlexContainer}>
-          <Text fontWeight='bold'>{formatNumber(item.reviewCount)}</Text>
-          <Text color='textSecondary'>Reviews</Text>
-        </View>
-        <View style={styles.bottomColumnFlexContainer}>
-          <Text fontWeight='bold'>{formatNumber(item.ratingAverage)}</Text>
-          <Text color='textSecondary'>Rating</Text>
-        </View>
+        <CountItem label='Stars' count={item.stargazersCount} />
+        <CountItem label='Forks' count={item.forksCount} />
+        <CountItem label='Reviews' count={item.reviewCount} />
+        <CountItem label='Rating' count={item.ratingAverage} />
       </View>
     </View>
   );

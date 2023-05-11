@@ -1,6 +1,9 @@
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Pressable } from 'react-native';
+import * as Linking from 'expo-linking';
+
 import Text from './Text';
 import theme from '../theme';
+import formatNumber from '../utils/formatNumber';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,6 +23,7 @@ const styles = StyleSheet.create({
   bottomRowFlexContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    marginVertical: theme.paddings.primary,
   },
   bottomColumnFlexContainer: {
     flexDirection: 'column',
@@ -34,15 +38,14 @@ const styles = StyleSheet.create({
   rowGap: {
     marginBottom: 5,
   },
+  button: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.primary,
+    borderRadius: theme.borderRadius.primary,
+    height: theme.formFieldHeight.primary,
+  },
 });
-
-const formatNumber = (num) => {
-  if (num < 1000) {
-    return num;
-  }
-  const formattedNum = Math.round(num / 100) / 10;
-  return `${formattedNum}k`;
-};
 
 const CountItem = ({ label, count }) => {
   return (
@@ -53,9 +56,13 @@ const CountItem = ({ label, count }) => {
   );
 };
 
-const RepositoryItem = ({ item }) => {
+const RepositoryItem = ({ item, singleView }) => {
+  const onPress = () => {
+    Linking.openURL(item.url);
+  };
+
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID='repositoryItem'>
       <View style={styles.topRowFlexContainer}>
         <Image style={styles.avatar} source={{ uri: item.ownerAvatarUrl }} />
         <View style={styles.topColumnFlexContainer}>
@@ -65,9 +72,7 @@ const RepositoryItem = ({ item }) => {
           <Text color='textSecondary' style={styles.rowGap}>
             {item.description}
           </Text>
-          <Text type='language' style={styles.rowGap}>
-            {item.language}
-          </Text>
+          <Text type='language'>{item.language}</Text>
         </View>
       </View>
       <View style={styles.bottomRowFlexContainer}>
@@ -76,6 +81,13 @@ const RepositoryItem = ({ item }) => {
         <CountItem label='Reviews' count={item.reviewCount} />
         <CountItem label='Rating' count={item.ratingAverage} />
       </View>
+      {singleView && (
+        <Pressable style={styles.button} onPress={onPress}>
+          <Text color='textTertiary' fontSize='subheading' fontWeight='bold'>
+            Open in GitHub
+          </Text>
+        </Pressable>
+      )}
     </View>
   );
 };

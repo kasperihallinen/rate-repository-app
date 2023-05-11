@@ -5,6 +5,7 @@ const theme = {
     textPrimary: '#24292e',
     textSecondary: '#586069',
     textTertiary: 'white',
+    placeholder: 'rgba(0, 0, 0, 0.3)',
     error: '#d73a4a',
     primary: '#0366d6',
     background1: '#e1e4e8',
